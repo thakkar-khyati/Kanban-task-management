@@ -1,7 +1,7 @@
 # MERN Stack Kanban Board - Project Structure
 
 ## Overview
-This document outlines the recommended project structure for the MERN stack Kanban Board application.
+This document outlines the recommended project structure for the MERN stack Kanban Board application with multi-user collaboration features.
 
 ## Root Directory Structure
 ```
@@ -213,6 +213,31 @@ frontend/
 - **React Hook Form** - Form handling
 - **Date-fns** - Date manipulation
 - **React Query** - Data fetching and caching
+
+## Multi-User Collaboration Features
+
+### Board Sharing & Access Control
+- **Multi-User Boards**: Boards can be shared with multiple users
+- **Role-Based Permissions**: Four distinct user roles with different access levels
+- **Invitation System**: Email-based invitations with secure tokens
+- **Member Management**: Add, remove, and manage board members
+
+### User Roles & Permissions
+- **Owner**: Full control over the board (create, edit, delete, manage members)
+- **Admin**: Can invite users and manage members, full board access
+- **Member**: Can create and edit tasks, view all board content
+- **Viewer**: Read-only access to board and tasks
+
+### Task Assignment
+- **User Assignment**: Tasks can be assigned to specific board members
+- **Assignee Selection**: Dropdown showing all board members with their roles
+- **Assignment Display**: Clear indication of task ownership and responsibility
+
+### Collaboration UI Components
+- **BoardMembersModal**: Manage board members and invitations
+- **User Selection**: Task assignment with member dropdown
+- **Role Indicators**: Visual indicators for user roles and permissions
+- **Invitation Management**: Send, accept, and decline board invitations
 
 ## Development Workflow
 

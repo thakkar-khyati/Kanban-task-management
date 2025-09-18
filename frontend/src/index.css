@@ -191,6 +191,36 @@ body {
   .kanban-task {
     @apply p-3;
   }
+  
+  .modal-content {
+    @apply mx-4 max-w-sm;
+  }
+}
+
+/* Mobile-specific improvements */
+@media (max-width: 768px) {
+  .kanban-column {
+    @apply w-72;
+  }
+  
+  .kanban-task {
+    @apply text-xs;
+  }
+  
+  .kanban-column-header {
+    @apply p-3;
+  }
+}
+
+/* Touch device improvements */
+@media (hover: none) and (pointer: coarse) {
+  .kanban-task {
+    @apply hover:shadow-sm;
+  }
+  
+  .kanban-column {
+    @apply hover:shadow-sm;
+  }
 }
 
 /* Print styles */

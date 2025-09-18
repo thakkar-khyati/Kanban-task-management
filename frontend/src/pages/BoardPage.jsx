@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { DragDropContext } from '@hello-pangea/dnd';
-import { ArrowLeft, Plus, MoreVertical, Settings, Archive } from 'lucide-react';
+import { ArrowLeft, Plus, MoreVertical, Settings, Archive, User } from 'lucide-react';
 import { boardService } from '../services/boardService';
 import { taskService } from '../services/taskService';
 import Column from '../components/kanban/Column';
 import TaskModal from '../components/kanban/TaskModal';
+import BoardModal from '../components/kanban/BoardModal';
+import BoardMembersModal from '../components/kanban/BoardMembersModal';
 import LoadingSpinner from '../components/common/LoadingSpinner';
 import toast from 'react-hot-toast';
 
@@ -18,6 +20,8 @@ const BoardPage = () => {
   const [selectedTask, setSelectedTask] = useState(null);
   const [showTaskModal, setShowTaskModal] = useState(false);
   const [showBoardMenu, setShowBoardMenu] = useState(false);
+  const [showBoardModal, setShowBoardModal] = useState(false);
+  const [showMembersModal, setShowMembersModal] = useState(false);
 
   useEffect(() => {
     if (id) {
@@ -168,6 +172,34 @@ const BoardPage = () => {
     }
   };
 
+  const handleEditBoard = () => {
+    setShowBoardModal(true);
+    setShowBoardMenu(false);
+  };
+
+  const handleBoardSaved = (savedBoard) => {
+    setBoard(savedBoard);
+    setShowBoardModal(false);
+  };
+
+  const handleBoardModalClose = () => {
+    setShowBoardModal(false);
+  };
+
+  const handleManageMembers = () => {
+    setShowMembersModal(true);
+    setShowBoardMenu(false);
+  };
+
+  const handleMembersModalClose = () => {
+    setShowMembersModal(false);
+  };
+
+  const handleMembersUpdate = () => {
+    // Refresh board data when members are updated
+    fetchBoard();
+  };
+
   if (loading) {
     return <LoadingSpinner text="Loading board..." />;
   }
@@ -191,32 +223,49 @@ const BoardPage = () => {
   return (
     <div className="h-full flex flex-col">
       {/* Board Header */}
-      <div className="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 px-6 py-4">
+      <div className="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 px-4 sm:px-6 py-4">
         <div className="flex items-center justify-between">
-          <div className="flex items-center space-x-4">
+          <div className="flex items-center space-x-2 sm:space-x-4 flex-1 min-w-0">
             <button
               onClick={() => navigate('/dashboard')}
-              className="p-2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition-colors duration-200"
+              className="p-2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition-colors duration-200 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 flex-shrink-0"
             >
               <ArrowLeft className="h-5 w-5" />
             </button>
             
-            <div>
-              <h1 className="text-2xl font-bold text-gray-900 dark:text-white">
+            <div className="min-w-0 flex-1">
+              <h1 className="text-lg sm:text-2xl font-bold text-gray-900 dark:text-white truncate">
                 {board.title}
               </h1>
               {board.description && (
-                <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
+                <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400 mt-1 line-clamp-1">
                   {board.description}
                 </p>
               )}
             </div>
           </div>
 
-          <div className="flex items-center space-x-2">
+          <div className="flex items-center space-x-2 flex-shrink-0">
+            {/* Members count and add member button */}
+            <div className="flex items-center space-x-2">
+              <div className="flex items-center space-x-1 text-sm text-gray-600 dark:text-gray-400">
+                <User className="h-4 w-4" />
+                <span>{board.members?.length || 1}</span>
+              </div>
+              <button
+                onClick={handleManageMembers}
+                className="flex items-center px-3 py-1.5 text-sm text-blue-600 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300 bg-blue-50 hover:bg-blue-100 dark:bg-blue-900/20 dark:hover:bg-blue-900/30 rounded-lg transition-colors duration-200"
+                title="Manage Members"
+              >
+                <User className="h-4 w-4 mr-1" />
+                <span className="hidden sm:inline">Add Member</span>
+                <span className="sm:hidden">+</span>
+              </button>
+            </div>
+            
             <button
               onClick={() => setShowBoardMenu(!showBoardMenu)}
-              className="p-2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition-colors duration-200"
+              className="p-2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition-colors duration-200 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700"
             >
               <MoreVertical className="h-5 w-5" />
             </button>
@@ -224,14 +273,18 @@ const BoardPage = () => {
             {showBoardMenu && (
               <div className="absolute right-6 top-16 bg-white dark:bg-gray-800 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700 py-2 z-50">
                 <button
-                  onClick={() => {
-                    setShowBoardMenu(false);
-                    // TODO: Open board settings
-                  }}
+                  onClick={handleEditBoard}
                   className="flex items-center w-full px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"
                 >
                   <Settings className="h-4 w-4 mr-2" />
                   Board Settings
+                </button>
+                <button
+                  onClick={handleManageMembers}
+                  className="flex items-center w-full px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"
+                >
+                  <User className="h-4 w-4 mr-2" />
+                  Manage Members
                 </button>
                 <button
                   onClick={() => {
@@ -251,9 +304,9 @@ const BoardPage = () => {
 
       {/* Kanban Board */}
       <div className="flex-1 overflow-hidden bg-gray-50 dark:bg-gray-900">
-        <div className="h-full p-6">
+        <div className="h-full p-2 sm:p-4 lg:p-6">
           <DragDropContext onDragEnd={handleDragEnd}>
-            <div className="flex space-x-6 h-full overflow-x-auto">
+            <div className="flex space-x-3 sm:space-x-4 lg:space-x-6 h-full overflow-x-auto pb-4">
               {board.columns?.map((column) => {
                 const columnTasks = tasks.filter(task => task.status === column.id);
                 
@@ -283,6 +336,22 @@ const BoardPage = () => {
             setSelectedTask(null);
           }}
           onSave={handleTaskSaved}
+        />
+      )}
+
+      {showBoardModal && (
+        <BoardModal
+          board={board}
+          onClose={handleBoardModalClose}
+          onSave={handleBoardSaved}
+        />
+      )}
+
+      {showMembersModal && (
+        <BoardMembersModal
+          board={board}
+          onClose={handleMembersModalClose}
+          onUpdate={handleMembersUpdate}
         />
       )}
 

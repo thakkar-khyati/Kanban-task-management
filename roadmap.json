@@ -1,7 +1,7 @@
 {
   "project": {
     "name": "MERN Stack Kanban Board",
-    "description": "A complete task management application with drag-and-drop functionality",
+    "description": "A complete collaborative task management application with drag-and-drop functionality and multi-user support",
     "techStack": ["MongoDB", "Express.js", "React", "Node.js", "TailwindCSS", "react-beautiful-dnd"],
     "version": "1.0.0",
     "startDate": "2024-01-01",
@@ -391,6 +391,69 @@
       "name": "TailwindCSS",
       "version": "3.0+",
       "description": "CSS framework for styling"
+    },
+    {
+      "id": "phase-4",
+      "name": "Multi-User Collaboration Features",
+      "duration": "1 week",
+      "status": "completed",
+      "description": "Implement multi-user board sharing, role-based permissions, and collaborative task management",
+      "milestones": [
+        {
+          "id": "milestone-4-1",
+          "name": "Multi-User Board System",
+          "description": "Enable boards to be shared with multiple users with role-based access control",
+          "tasks": [
+            "Update Board model to support multiple members",
+            "Implement user invitation system with email tokens",
+            "Add role-based permissions (Owner, Admin, Member, Viewer)",
+            "Create member management API endpoints",
+            "Update board access control logic"
+          ],
+          "acceptanceCriteria": [
+            "Boards can have multiple members with different roles",
+            "Users can be invited via email with secure tokens",
+            "Role-based permissions are enforced on all operations",
+            "Member management APIs work correctly"
+          ]
+        },
+        {
+          "id": "milestone-4-2",
+          "name": "Task Assignment System",
+          "description": "Enable tasks to be assigned to specific board members",
+          "tasks": [
+            "Update Task model to support user assignment",
+            "Create user selection UI in task creation/editing",
+            "Display assignee information on task cards",
+            "Update task filtering to include assignee",
+            "Implement assignee-based task queries"
+          ],
+          "acceptanceCriteria": [
+            "Tasks can be assigned to board members",
+            "Assignee information is displayed clearly",
+            "Task assignment works in all task operations",
+            "User can filter tasks by assignee"
+          ]
+        },
+        {
+          "id": "milestone-4-3",
+          "name": "Collaboration UI Components",
+          "description": "Create user interface for managing board members and invitations",
+          "tasks": [
+            "Create BoardMembersModal for member management",
+            "Add invitation form with role selection",
+            "Implement member list with role indicators",
+            "Add pending invitations display",
+            "Create user role management interface"
+          ],
+          "acceptanceCriteria": [
+            "Board members can be managed through UI",
+            "Users can send invitations with role selection",
+            "Member roles are clearly displayed",
+            "Pending invitations are shown and manageable"
+          ]
+        }
+      ]
     }
   ],
   "risks": [
@@ -426,6 +489,10 @@
     "Application is responsive on mobile and desktop",
     "Code is well-structured and maintainable",
     "Performance is acceptable with reasonable data loads",
-    "User experience is intuitive and polished"
+    "User experience is intuitive and polished",
+    "Multi-user collaboration features work seamlessly",
+    "Role-based permissions are properly enforced",
+    "Task assignment system functions correctly",
+    "Board invitation system is secure and user-friendly"
   ]
 }

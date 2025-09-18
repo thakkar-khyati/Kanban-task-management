@@ -44,11 +44,11 @@ const Task = ({ task, index, onEdit, onDelete }) => {
           {...provided.dragHandleProps}
           className={`kanban-task group relative cursor-grab active:cursor-grabbing w-full ${
             snapshot.isDragging ? 'dragging' : ''
-          } priority-${task.priority.toLowerCase()}`}
+          } priority-${task.priority.toLowerCase()} hover:shadow-md transition-all duration-200`}
         >
           {/* Task Header */}
-          <div className="flex items-start justify-between mb-3">
-            <h4 className="text-sm font-medium text-gray-900 dark:text-white line-clamp-2 flex-1 min-w-0 pr-2">
+          <div className="flex items-start justify-between mb-2 sm:mb-3">
+            <h4 className="text-xs sm:text-sm font-medium text-gray-900 dark:text-white line-clamp-2 flex-1 min-w-0 pr-2">
               {task.title}
             </h4>
             
@@ -58,32 +58,33 @@ const Task = ({ task, index, onEdit, onDelete }) => {
                   e.stopPropagation();
                   setShowMenu(!showMenu);
                 }}
-                className="p-1 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 opacity-0 group-hover:opacity-100 transition-opacity duration-200"
+                className="p-1 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 opacity-0 group-hover:opacity-100 transition-opacity duration-200 rounded hover:bg-gray-100 dark:hover:bg-gray-700"
               >
-                <MoreVertical className="h-4 w-4" />
+                <MoreVertical className="h-3 w-3 sm:h-4 sm:w-4" />
               </button>
             </div>
           </div>
 
           {/* Task Description */}
           {task.description && (
-            <p className="text-xs text-gray-600 dark:text-gray-400 mb-3 line-clamp-2 break-words">
+            <p className="text-xs text-gray-600 dark:text-gray-400 mb-2 sm:mb-3 line-clamp-2 break-words">
               {task.description}
             </p>
           )}
 
           {/* Task Meta */}
-          <div className="space-y-2">
+          <div className="space-y-1 sm:space-y-2">
             {/* Priority and Due Date */}
-            <div className="flex items-center justify-between">
-              <span className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${getPriorityColor(task.priority)}`}>
+            <div className="flex items-center justify-between gap-2">
+              <span className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${getPriorityColor(task.priority)} flex-shrink-0`}>
                 {task.priority}
               </span>
               
               {dueDateStatus && (
-                <span className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${dueDateStatus.color}`}>
+                <span className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${dueDateStatus.color} flex-shrink-0`}>
                   <Calendar className="h-3 w-3 mr-1" />
-                  {dueDateStatus.text}
+                  <span className="hidden sm:inline">{dueDateStatus.text}</span>
+                  <span className="sm:hidden">{dueDateStatus.text.split(' ')[0]}</span>
                 </span>
               )}
             </div>
@@ -94,14 +95,14 @@ const Task = ({ task, index, onEdit, onDelete }) => {
                 {task.labels.slice(0, 2).map((label, index) => (
                   <span
                     key={index}
-                    className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 truncate max-w-[120px]"
+                    className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 truncate max-w-[100px] sm:max-w-[120px]"
                   >
                     <Tag className="h-3 w-3 mr-1 flex-shrink-0" />
                     <span className="truncate">{label}</span>
                   </span>
                 ))}
                 {task.labels.length > 2 && (
-                  <span className="text-xs text-gray-500 dark:text-gray-400">
+                  <span className="text-xs text-gray-500 dark:text-gray-400 flex-shrink-0">
                     +{task.labels.length - 2}
                   </span>
                 )}
@@ -112,12 +113,13 @@ const Task = ({ task, index, onEdit, onDelete }) => {
             {task.subtasks && task.subtasks.length > 0 && (
               <div className="space-y-1">
                 <div className="flex items-center justify-between text-xs text-gray-600 dark:text-gray-400">
-                  <span>Subtasks</span>
+                  <span className="hidden sm:inline">Subtasks</span>
+                  <span className="sm:hidden">Tasks</span>
                   <span>{task.subtasks.filter(st => st.completed).length}/{task.subtasks.length}</span>
                 </div>
-                <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-1.5">
+                <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-1 sm:h-1.5">
                   <div
-                    className="bg-blue-600 h-1.5 rounded-full transition-all duration-300"
+                    className="bg-blue-600 h-1 sm:h-1.5 rounded-full transition-all duration-300"
                     style={{ width: `${completionPercentage}%` }}
                   />
                 </div>
@@ -127,11 +129,11 @@ const Task = ({ task, index, onEdit, onDelete }) => {
             {/* Assignee */}
             {task.assignee && (
               <div className="flex items-center space-x-2">
-                <div className="w-6 h-6 bg-gray-300 dark:bg-gray-600 rounded-full flex items-center justify-center">
+                <div className="w-5 h-5 sm:w-6 sm:h-6 bg-gray-300 dark:bg-gray-600 rounded-full flex items-center justify-center flex-shrink-0">
                   <User className="h-3 w-3 text-gray-600 dark:text-gray-400" />
                 </div>
-                <span className="text-xs text-gray-600 dark:text-gray-400">
-                  {task.assignee.name}
+                <span className="text-xs text-gray-600 dark:text-gray-400 truncate">
+                  {typeof task.assignee === 'string' ? task.assignee : task.assignee.name}
                 </span>
               </div>
             )}

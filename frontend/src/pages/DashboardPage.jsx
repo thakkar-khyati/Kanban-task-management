@@ -1,18 +1,29 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 import { Plus, Archive, MoreVertical, Edit, Trash2, Eye } from 'lucide-react';
 import { boardService } from '../services/boardService';
 import toast from 'react-hot-toast';
 import LoadingSpinner from '../components/common/LoadingSpinner';
+import BoardModal from '../components/kanban/BoardModal';
 
 const DashboardPage = () => {
   const [boards, setBoards] = useState([]);
   const [loading, setLoading] = useState(true);
   const [showArchived, setShowArchived] = useState(false);
+  const [showBoardModal, setShowBoardModal] = useState(false);
+  const [editingBoard, setEditingBoard] = useState(null);
+  const [searchParams, setSearchParams] = useSearchParams();
 
   useEffect(() => {
     fetchBoards();
   }, [showArchived]);
+
+  useEffect(() => {
+    if (searchParams.get('create') === 'true') {
+      setShowBoardModal(true);
+      setSearchParams({});
+    }
+  }, [searchParams, setSearchParams]);
 
   const fetchBoards = async () => {
     try {
@@ -56,6 +67,33 @@ const DashboardPage = () => {
     }
   };
 
+  const handleCreateBoard = () => {
+    setEditingBoard(null);
+    setShowBoardModal(true);
+  };
+
+  const handleEditBoard = (board) => {
+    setEditingBoard(board);
+    setShowBoardModal(true);
+  };
+
+  const handleBoardSave = (savedBoard) => {
+    if (editingBoard) {
+      // Update existing board
+      setBoards(boards.map(board => 
+        board._id === savedBoard._id ? savedBoard : board
+      ));
+    } else {
+      // Add new board
+      setBoards([savedBoard, ...boards]);
+    }
+  };
+
+  const handleBoardModalClose = () => {
+    setShowBoardModal(false);
+    setEditingBoard(null);
+  };
+
   if (loading) {
     return <LoadingSpinner text="Loading boards..." />;
   }
@@ -91,13 +129,13 @@ const DashboardPage = () => {
             </button>
             
             {!showArchived && (
-              <Link
-                to="/dashboard?create=true"
+              <button
+                onClick={handleCreateBoard}
                 className="flex items-center px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-sm font-medium transition-colors duration-200 shadow-sm hover:shadow-md"
               >
                 <Plus className="h-4 w-4 mr-2" />
                 New Board
-              </Link>
+              </button>
             )}
           </div>
         </div>
@@ -123,13 +161,13 @@ const DashboardPage = () => {
                 }
               </p>
               {!showArchived && (
-                <Link
-                  to="/dashboard?create=true"
+                <button
+                  onClick={handleCreateBoard}
                   className="inline-flex items-center px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-base font-medium transition-colors duration-200 shadow-lg hover:shadow-xl"
                 >
                   <Plus className="h-5 w-5 mr-2" />
                   Create your first board
-                </Link>
+                </button>
               )}
             </div>
           </div>
@@ -154,9 +192,15 @@ const DashboardPage = () => {
                         )}
                       </div>
                       
-                      <button className="p-1 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
-                        <MoreVertical className="h-4 w-4" />
-                      </button>
+                      <div className="relative">
+                        <button 
+                          onClick={() => handleEditBoard(board)}
+                          className="p-1 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 opacity-0 group-hover:opacity-100 transition-opacity duration-200"
+                          title="Edit board"
+                        >
+                          <MoreVertical className="h-4 w-4" />
+                        </button>
+                      </div>
                     </div>
 
                     {/* Board stats */}
@@ -168,6 +212,10 @@ const DashboardPage = () => {
                       <span className="flex items-center">
                         <div className="w-2 h-2 bg-green-500 rounded-full mr-2"></div>
                         {board.taskCount || 0} tasks
+                      </span>
+                      <span className="flex items-center">
+                        <div className="w-2 h-2 bg-purple-500 rounded-full mr-2"></div>
+                        {board.members?.length || 1} members
                       </span>
                     </div>
 
@@ -220,6 +268,15 @@ const DashboardPage = () => {
           </div>
         )}
       </div>
+
+      {/* Board Modal */}
+      {showBoardModal && (
+        <BoardModal
+          board={editingBoard}
+          onClose={handleBoardModalClose}
+          onSave={handleBoardSave}
+        />
+      )}
     </div>
   );
 };

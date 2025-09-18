@@ -7,7 +7,14 @@ const {
   updateBoard,
   deleteBoard,
   toggleArchiveBoard,
-  updateColumns
+  updateColumns,
+  getBoardMembers,
+  inviteUser,
+  acceptInvitation,
+  declineInvitation,
+  removeMember,
+  updateMemberRole,
+  addMember
 } = require('../controllers/boardController');
 const { protect } = require('../middleware/auth');
 const { validateBoard, validateParams, validateQuery } = require('../middleware/validation');
@@ -46,5 +53,40 @@ router.patch('/:id/archive', protect, validateParams.mongoId, toggleArchiveBoard
 // @desc    Update column order/names
 // @access  Private
 router.put('/:id/columns', protect, validateParams.mongoId, validateBoard.updateColumns, updateColumns);
+
+// @route   GET /api/boards/:id/members
+// @desc    Get board members
+// @access  Private
+router.get('/:id/members', protect, validateParams.mongoId, getBoardMembers);
+
+// @route   POST /api/boards/:id/invite
+// @desc    Invite user to board
+// @access  Private
+router.post('/:id/invite', protect, validateParams.mongoId, inviteUser);
+
+// @route   POST /api/boards/:id/add-member
+// @desc    Add user directly to board
+// @access  Private
+router.post('/:id/add-member', protect, validateParams.mongoId, addMember);
+
+// @route   POST /api/boards/invite/:token/accept
+// @desc    Accept board invitation
+// @access  Private
+router.post('/invite/:token/accept', protect, acceptInvitation);
+
+// @route   POST /api/boards/invite/:token/decline
+// @desc    Decline board invitation
+// @access  Private
+router.post('/invite/:token/decline', protect, declineInvitation);
+
+// @route   DELETE /api/boards/:id/members/:userId
+// @desc    Remove member from board
+// @access  Private
+router.delete('/:id/members/:userId', protect, validateParams.mongoId, removeMember);
+
+// @route   PUT /api/boards/:id/members/:userId/role
+// @desc    Update member role
+// @access  Private
+router.put('/:id/members/:userId/role', protect, validateParams.mongoId, updateMemberRole);
 
 module.exports = router;

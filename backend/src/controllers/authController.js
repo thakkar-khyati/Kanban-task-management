@@ -271,11 +271,32 @@ const logout = async (req, res) => {
   }
 };
 
+// @desc    Get all users for selection
+// @route   GET /api/auth/users
+// @access  Private
+const getUsers = async (req, res) => {
+  try {
+    const users = await User.find({}, 'name email').sort({ name: 1 });
+    
+    res.json({
+      success: true,
+      data: users
+    });
+  } catch (error) {
+    console.error('Get users error:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Server error while fetching users'
+    });
+  }
+};
+
 module.exports = {
   register,
   login,
   getMe,
   updateProfile,
   changePassword,
-  logout
+  logout,
+  getUsers
 };

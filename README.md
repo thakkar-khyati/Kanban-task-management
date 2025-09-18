@@ -1,6 +1,6 @@
 # MERN Stack Kanban Board
 
-A modern, responsive Kanban board application built with MongoDB, Express.js, React, and Node.js. Features drag-and-drop functionality, dark/light mode, and real-time task management.
+A modern, collaborative Kanban board application built with MongoDB, Express.js, React, and Node.js. Features drag-and-drop functionality, multi-user collaboration, role-based permissions, and real-time task management.
 
 ![Kanban Board](https://via.placeholder.com/800x400/3B82F6/FFFFFF?text=Kanban+Board+Preview)
 
@@ -12,11 +12,25 @@ A modern, responsive Kanban board application built with MongoDB, Express.js, Re
 - **Real-time Updates** - Changes sync immediately across the application
 - **Responsive Design** - Works seamlessly on desktop, tablet, and mobile devices
 
+### Multi-User Collaboration
+- **Board Sharing** - Invite multiple users to collaborate on boards
+- **Role-Based Permissions** - Owner, Admin, Member, and Viewer roles with different access levels
+- **User Invitations** - Email-based invitation system with secure tokens
+- **Member Management** - Add, remove, and manage board members through intuitive UI
+- **Task Assignment** - Assign tasks to specific team members with clear ownership
+
 ### User Experience
 - **Dark/Light Mode** - Toggle between themes with system preference detection
 - **Modern UI** - Clean, Kanban-style interface built with TailwindCSS
-- **Task Management** - Priority levels, due dates, labels, and subtasks
+- **Task Management** - Priority levels, due dates, labels, subtasks, and assignees
 - **Search & Filter** - Find tasks quickly with advanced filtering options
+- **Collaborative Features** - Visual indicators for user roles and task ownership
+
+### User Roles & Permissions
+- **Owner** - Full control over the board (create, edit, delete, manage members)
+- **Admin** - Can invite users and manage members, full board access
+- **Member** - Can create and edit tasks, view all board content
+- **Viewer** - Read-only access to board and tasks
 
 ### Technical Features
 - **JWT Authentication** - Secure user authentication and authorization
@@ -24,6 +38,7 @@ A modern, responsive Kanban board application built with MongoDB, Express.js, Re
 - **MongoDB Integration** - Efficient data storage with Mongoose ODM
 - **Input Validation** - Comprehensive validation on both client and server
 - **Error Handling** - Graceful error handling with user-friendly messages
+- **Role-Based Security** - Granular permissions enforced at API and UI levels
 
 ## 🚀 Quick Start
 

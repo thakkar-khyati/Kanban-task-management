@@ -6,7 +6,8 @@ const {
   getMe,
   updateProfile,
   changePassword,
-  logout
+  logout,
+  getUsers
 } = require('../controllers/authController');
 const { protect } = require('../middleware/auth');
 const { validateUser } = require('../middleware/validation');
@@ -40,5 +41,10 @@ router.put('/change-password', protect, validateUser.changePassword, changePassw
 // @desc    Logout user
 // @access  Private
 router.post('/logout', protect, logout);
+
+// @route   GET /api/auth/users
+// @desc    Get all users for selection
+// @access  Private
+router.get('/users', protect, getUsers);
 
 module.exports = router;
