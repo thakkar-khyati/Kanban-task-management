@@ -1,0 +1,38 @@
+{
+  "name": "kanban-task-management",
+  "version": "1.0.0",
+  "description": "MERN Stack Kanban Board - Complete Task Management Application",
+  "main": "index.js",
+  "scripts": {
+    "setup": "./setup.sh",
+    "start": "./start-dev.sh",
+    "test": "./test-setup.sh",
+    "install:backend": "cd backend && npm install",
+    "install:frontend": "cd frontend && npm install",
+    "install:all": "npm run install:backend && npm run install:frontend",
+    "dev:backend": "cd backend && npm run dev",
+    "dev:frontend": "cd frontend && npm run dev",
+    "seed": "cd backend && npm run seed",
+    "build:frontend": "cd frontend && npm run build",
+    "clean": "rm -rf backend/node_modules frontend/node_modules backend/package-lock.json frontend/package-lock.json"
+  },
+  "keywords": [
+    "kanban",
+    "task-management",
+    "mern",
+    "react",
+    "nodejs",
+    "mongodb",
+    "express"
+  ],
+  "author": "Your Name",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/your-username/kanban-task-management.git"
+  },
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=8.0.0"
+  }
+}

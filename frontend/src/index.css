@@ -1,0 +1,213 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Custom CSS Variables for theming */
+:root {
+  --toast-bg: #ffffff;
+  --toast-color: #1f2937;
+  --toast-border: #e5e7eb;
+}
+
+.dark {
+  --toast-bg: #1f2937;
+  --toast-color: #f9fafb;
+  --toast-border: #374151;
+}
+
+/* Base styles */
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-gray-100 dark:bg-gray-800;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-gray-300 dark:bg-gray-600 rounded-full;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  @apply bg-gray-400 dark:bg-gray-500;
+}
+
+/* Kanban-specific styles */
+.kanban-board {
+  @apply h-full bg-gray-50 dark:bg-gray-900 transition-colors duration-200;
+}
+
+.kanban-column {
+  @apply bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 transition-all duration-200 hover:shadow-md;
+}
+
+.kanban-column-header {
+  @apply p-4 border-b border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 rounded-t-lg;
+}
+
+.kanban-task {
+  @apply bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-4 cursor-pointer transition-all duration-200 hover:shadow-md hover:border-gray-300 dark:hover:border-gray-600 break-words;
+}
+
+.kanban-task:hover {
+  @apply transform -translate-y-0.5;
+}
+
+.kanban-task.dragging {
+  @apply opacity-50 transform rotate-1 scale-105 shadow-lg;
+}
+
+.kanban-column.drag-over {
+  @apply ring-2 ring-blue-400 ring-opacity-50 bg-blue-50 dark:bg-blue-900/20;
+}
+
+/* Priority indicators */
+.priority-low {
+  @apply border-l-4 border-gray-400;
+}
+
+.priority-medium {
+  @apply border-l-4 border-blue-400;
+}
+
+.priority-high {
+  @apply border-l-4 border-amber-400;
+}
+
+.priority-critical {
+  @apply border-l-4 border-red-400;
+}
+
+/* Status colors */
+.status-todo {
+  @apply bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200;
+}
+
+.status-in-progress {
+  @apply bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-200;
+}
+
+.status-review {
+  @apply bg-amber-100 dark:bg-amber-900/30 text-amber-800 dark:text-amber-200;
+}
+
+.status-done {
+  @apply bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-200;
+}
+
+/* Button styles */
+.btn-primary {
+  @apply bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-lg transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800;
+}
+
+.btn-secondary {
+  @apply bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-800 dark:text-gray-200 font-medium py-2 px-4 rounded-lg transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800;
+}
+
+.btn-danger {
+  @apply bg-red-600 hover:bg-red-700 text-white font-medium py-2 px-4 rounded-lg transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800;
+}
+
+/* Form styles */
+.form-input {
+  @apply w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors duration-200;
+}
+
+.form-textarea {
+  @apply w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors duration-200 resize-none;
+}
+
+.form-select {
+  @apply w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors duration-200;
+}
+
+/* Modal styles */
+.modal-overlay {
+  @apply fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50;
+}
+
+.modal-content {
+  @apply bg-white dark:bg-gray-800 rounded-lg shadow-xl max-w-md w-full max-h-[90vh] overflow-y-auto;
+}
+
+/* Loading spinner */
+.spinner {
+  @apply animate-spin rounded-full border-2 border-gray-300 border-t-blue-600;
+}
+
+/* Drag and drop styles */
+.drag-handle {
+  @apply cursor-grab active:cursor-grabbing;
+}
+
+.drop-zone {
+  @apply min-h-[200px] transition-all duration-200;
+}
+
+.drop-zone.drag-over {
+  @apply bg-blue-50 dark:bg-blue-900/20 border-2 border-dashed border-blue-400 rounded-lg;
+}
+
+/* Animation classes */
+.fade-in {
+  @apply animate-fade-in;
+}
+
+.slide-in {
+  @apply animate-slide-in;
+}
+
+.bounce-gentle {
+  @apply animate-bounce-gentle;
+}
+
+/* Responsive utilities */
+@media (max-width: 640px) {
+  .kanban-board {
+    @apply p-2;
+  }
+  
+  .kanban-column {
+    @apply mb-4;
+  }
+  
+  .kanban-task {
+    @apply p-3;
+  }
+}
+
+/* Print styles */
+@media print {
+  .no-print {
+    display: none !important;
+  }
+  
+  .kanban-board {
+    @apply bg-white text-black;
+  }
+  
+  .kanban-column {
+    @apply border border-gray-300 shadow-none;
+  }
+  
+  .kanban-task {
+    @apply border border-gray-300 shadow-none;
+  }
+}
