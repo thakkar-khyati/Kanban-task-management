@@ -31,7 +31,7 @@ app.use(helmet({
 
 // CORS configuration
 const corsOptions = {
-  origin: process.env.CORS_ORIGIN || 'http://localhost:3000',
+  origin: process.env.CORS_ORIGIN || 'https://kanban-task-management-chi.vercel.app',
   credentials: process.env.CORS_CREDENTIALS === 'true' || true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With'],
