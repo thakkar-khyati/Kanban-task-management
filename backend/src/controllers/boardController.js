@@ -1,6 +1,7 @@
 const Board = require('../models/Board');
 const Task = require('../models/Task');
 const { validationResult } = require('express-validator');
+const User = require('../models/User');
 
 // @desc    Get all boards for a user
 // @route   GET /api/boards
@@ -35,6 +36,7 @@ const getBoards = async (req, res) => {
     const boards = await Board.find(query)
       .populate('ownerId', 'name email')
       .populate('members.user', 'name email')
+      .populate('taskCount')
       .sort({ updatedAt: -1 })
       .limit(limit * 1)
       .skip((page - 1) * limit);

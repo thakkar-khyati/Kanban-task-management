@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { DragDropContext } from '@hello-pangea/dnd';
-import { ArrowLeft, Plus, MoreVertical, Settings, Archive, User } from 'lucide-react';
+import { ArrowLeft, Plus, MoreVertical, Settings, Archive, User, Download } from 'lucide-react';
 import { boardService } from '../services/boardService';
 import { taskService } from '../services/taskService';
+import exportService from '../services/exportService';
 import Column from '../components/kanban/Column';
 import TaskModal from '../components/kanban/TaskModal';
 import BoardModal from '../components/kanban/BoardModal';
@@ -200,6 +201,15 @@ const BoardPage = () => {
     fetchBoard();
   };
 
+  const handleExportBoard = async () => {
+    try {
+      await exportService.exportBoard(id);
+      toast.success('Board exported successfully');
+    } catch (error) {
+      toast.error(error.message || 'Failed to export board');
+    }
+  };
+
   if (loading) {
     return <LoadingSpinner text="Loading board..." />;
   }
@@ -285,6 +295,13 @@ const BoardPage = () => {
                 >
                   <User className="h-4 w-4 mr-2" />
                   Manage Members
+                </button>
+                <button
+                  onClick={handleExportBoard}
+                  className="flex items-center w-full px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"
+                >
+                  <Download className="h-4 w-4 mr-2" />
+                  Export Board
                 </button>
                 <button
                   onClick={() => {

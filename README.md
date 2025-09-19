@@ -1,311 +1,234 @@
-# MERN Stack Kanban Board
+# 🚀 MERN Stack Kanban Board
 
-A modern, collaborative Kanban board application built with MongoDB, Express.js, React, and Node.js. Features drag-and-drop functionality, multi-user collaboration, role-based permissions, and real-time task management.
+A modern, full-stack Kanban board application built with the MERN stack (MongoDB, Express.js, React, Node.js). Features drag-and-drop task management, multi-user collaboration, real-time updates, and a beautiful responsive UI.
 
-![Kanban Board](https://via.placeholder.com/800x400/3B82F6/FFFFFF?text=Kanban+Board+Preview)
+![Kanban Board](https://img.shields.io/badge/Status-Production%20Ready-brightgreen)
+![React](https://img.shields.io/badge/React-18.2.0-blue)
+![Node.js](https://img.shields.io/badge/Node.js-18.0+-green)
+![MongoDB](https://img.shields.io/badge/MongoDB-6.0+-green)
 
 ## ✨ Features
 
-### Core Functionality
-- **Full CRUD Operations** - Create, read, update, and delete boards and tasks
-- **Drag & Drop** - Intuitive task movement between columns using react-beautiful-dnd
-- **Real-time Updates** - Changes sync immediately across the application
-- **Responsive Design** - Works seamlessly on desktop, tablet, and mobile devices
+### 🎯 Core Functionality
+- **Drag & Drop**: Smooth task and column reordering with @hello-pangea/dnd
+- **Multi-User Collaboration**: Share boards with team members
+- **Role-Based Permissions**: Owner, Admin, Member, and Viewer roles
+- **Real-Time Updates**: Optimistic UI with instant feedback
+- **Task Management**: Subtasks, comments, attachments, labels, priorities
+- **Board Management**: Create, edit, archive, and delete boards
 
-### Multi-User Collaboration
-- **Board Sharing** - Invite multiple users to collaborate on boards
-- **Role-Based Permissions** - Owner, Admin, Member, and Viewer roles with different access levels
-- **User Invitations** - Email-based invitation system with secure tokens
-- **Member Management** - Add, remove, and manage board members through intuitive UI
-- **Task Assignment** - Assign tasks to specific team members with clear ownership
+### 🎨 User Experience
+- **Dark Mode**: Complete theme system with persistence
+- **Responsive Design**: Optimized for desktop, tablet, and mobile
+- **Modern UI**: Clean, intuitive interface with TailwindCSS
+- **Loading States**: Smooth loading indicators and error handling
+- **Toast Notifications**: Real-time feedback for all actions
 
-### User Experience
-- **Dark/Light Mode** - Toggle between themes with system preference detection
-- **Modern UI** - Clean, Kanban-style interface built with TailwindCSS
-- **Task Management** - Priority levels, due dates, labels, subtasks, and assignees
-- **Search & Filter** - Find tasks quickly with advanced filtering options
-- **Collaborative Features** - Visual indicators for user roles and task ownership
+### 🔐 Security & Authentication
+- **JWT Authentication**: Secure token-based authentication
+- **Password Hashing**: bcrypt with salt rounds
+- **Input Validation**: Comprehensive server-side validation
+- **CORS Protection**: Configured for secure cross-origin requests
+- **Rate Limiting**: Protection against abuse
 
-### User Roles & Permissions
-- **Owner** - Full control over the board (create, edit, delete, manage members)
-- **Admin** - Can invite users and manage members, full board access
-- **Member** - Can create and edit tasks, view all board content
-- **Viewer** - Read-only access to board and tasks
+## 🛠️ Tech Stack
 
-### Technical Features
-- **JWT Authentication** - Secure user authentication and authorization
-- **RESTful API** - Well-structured backend API with proper error handling
-- **MongoDB Integration** - Efficient data storage with Mongoose ODM
-- **Input Validation** - Comprehensive validation on both client and server
-- **Error Handling** - Graceful error handling with user-friendly messages
-- **Role-Based Security** - Granular permissions enforced at API and UI levels
+### Backend
+- **Node.js** - Runtime environment
+- **Express.js** - Web framework
+- **MongoDB** - Database
+- **Mongoose** - ODM for MongoDB
+- **JWT** - Authentication
+- **bcryptjs** - Password hashing
+- **express-validator** - Input validation
+- **cors** - Cross-origin resource sharing
+
+### Frontend
+- **React 18** - UI library
+- **Vite** - Build tool and dev server
+- **React Router** - Client-side routing
+- **TailwindCSS** - CSS framework
+- **@hello-pangea/dnd** - Drag and drop
+- **Lucide React** - Icon library
+- **React Hot Toast** - Notifications
+- **date-fns** - Date utilities
 
 ## 🚀 Quick Start
 
 ### Prerequisites
-
-- **Node.js** (v18.0.0 or higher)
-- **MongoDB** (v6.0 or higher)
-- **npm** or **yarn**
+- Node.js 18.0 or higher
+- MongoDB 6.0 or higher
+- Git
 
 ### Installation
 
 1. **Clone the repository**
    ```bash
-   git clone <repository-url>
-   cd Kanban-task-management
+   git clone https://github.com/your-username/kanban-board.git
+   cd kanban-board
    ```
 
-2. **Install backend dependencies**
+2. **Install dependencies**
    ```bash
+   # Install root dependencies
+   npm install
+   
+   # Install backend dependencies
    cd backend
    npm install
-   ```
-
-3. **Install frontend dependencies**
-   ```bash
+   
+   # Install frontend dependencies
    cd ../frontend
    npm install
    ```
 
-4. **Set up environment variables**
-
-   **Backend** (create `backend/.env`):
-   ```env
-   NODE_ENV=development
-   PORT=5000
-   MONGODB_URI=mongodb://localhost:27017/kanban-board
-   JWT_SECRET=your-super-secret-jwt-key-change-this-in-production
-   JWT_EXPIRE=7d
-   CORS_ORIGIN=http://localhost:3000
-   ```
-
-   **Frontend** (create `frontend/.env`):
-   ```env
-   VITE_API_URL=http://localhost:5000/api
-   VITE_APP_NAME=Kanban Board
-   ```
-
-5. **Start MongoDB**
+3. **Environment Setup**
    ```bash
-   # Make sure MongoDB is running on your system
+   # Backend environment
+   cd backend
+   cp env.template .env
+   # Edit .env with your MongoDB connection string and JWT secret
+   
+   # Frontend environment
+   cd ../frontend
+   cp env.example .env
+   # Edit .env with your API URL
+   ```
+
+4. **Database Setup**
+   ```bash
+   # Start MongoDB (if not already running)
    mongod
-   ```
-
-6. **Seed the database** (optional)
-   ```bash
+   
+   # Seed the database (optional)
    cd backend
    npm run seed
    ```
 
-7. **Start the development servers**
-
-   **Backend** (Terminal 1):
+5. **Start the application**
    ```bash
-   cd backend
+   # Start both backend and frontend (from root directory)
    npm run dev
+   
+   # Or start them separately:
+   # Backend (port 5000)
+   cd backend && npm run dev
+   
+   # Frontend (port 3000)
+   cd frontend && npm run dev
    ```
 
-   **Frontend** (Terminal 2):
-   ```bash
-   cd frontend
-   npm run dev
-   ```
-
-8. **Open your browser**
+6. **Access the application**
    - Frontend: http://localhost:3000
    - Backend API: http://localhost:5000/api
 
 ## 📁 Project Structure
 
 ```
-Kanban-task-management/
-├── backend/                 # Node.js/Express backend
+kanban-board/
+├── backend/                 # Backend API
 │   ├── src/
-│   │   ├── controllers/    # Route controllers
-│   │   ├── models/         # MongoDB models
-│   │   ├── routes/         # Express routes
+│   │   ├── controllers/     # Route controllers
+│   │   ├── models/         # Database models
+│   │   ├── routes/         # API routes
 │   │   ├── middleware/     # Custom middleware
 │   │   └── config/         # Configuration files
 │   ├── seeds/              # Database seeders
-│   └── package.json
+│   └── server.js           # Entry point
 ├── frontend/               # React frontend
 │   ├── src/
 │   │   ├── components/     # React components
-│   │   ├── context/        # React Context providers
-│   │   ├── services/       # API services
 │   │   ├── pages/          # Page components
-│   │   └── styles/         # Styling files
-│   └── package.json
+│   │   ├── services/       # API services
+│   │   ├── context/        # React contexts
+│   │   └── utils/          # Utility functions
+│   └── public/             # Static assets
 ├── docs/                   # Documentation
-└── README.md
+└── README.md              # This file
 ```
 
-## 🎯 Usage
+## 🔧 Configuration
 
-### Getting Started
+### Backend Environment Variables
+```env
+NODE_ENV=development
+PORT=5000
+MONGODB_URI=mongodb://localhost:27017/kanban-board
+JWT_SECRET=your-super-secret-jwt-key
+JWT_EXPIRE=7d
+BCRYPT_ROUNDS=12
+CORS_ORIGIN=http://localhost:3000
+```
 
-1. **Register/Login** - Create a new account or use demo credentials:
-   - Email: `john@example.com`
-   - Password: `password123`
+### Frontend Environment Variables
+```env
+VITE_API_URL=http://localhost:5000/api
+VITE_APP_NAME=Kanban Board
+```
 
-2. **Create a Board** - Click "New Board" to create your first Kanban board
+## 📚 API Documentation
 
-3. **Add Tasks** - Click "Add a task" in any column to create new tasks
+Comprehensive API documentation is available in [docs/API_DOCUMENTATION.md](docs/API_DOCUMENTATION.md).
 
-4. **Drag & Drop** - Move tasks between columns by dragging them
+### Key Endpoints
+- **Authentication**: `/api/auth/*`
+- **Boards**: `/api/boards/*`
+- **Tasks**: `/api/tasks/*`
+- **Members**: `/api/boards/:id/members/*`
 
-5. **Edit Tasks** - Click on any task to edit its details
+## 🧪 Testing
 
-### Features Guide
-
-#### Boards
-- Create multiple boards for different projects
-- Archive boards you no longer need
-- Customize column names and colors
-- Export board data as JSON
-
-#### Tasks
-- Add detailed task descriptions
-- Set priority levels (Low, Medium, High, Critical)
-- Add due dates and labels
-- Create subtasks for complex work items
-- Assign tasks to team members
-
-#### Columns
-- Default columns: To Do, In Progress, Done
-- Add custom columns for your workflow
-- Reorder columns by dragging
-- Customize column colors
-
-## 🔧 API Endpoints
-
-### Authentication
-- `POST /api/auth/register` - Register new user
-- `POST /api/auth/login` - Login user
-- `GET /api/auth/me` - Get current user
-- `PUT /api/auth/profile` - Update user profile
-
-### Boards
-- `GET /api/boards` - Get all boards
-- `POST /api/boards` - Create new board
-- `GET /api/boards/:id` - Get single board
-- `PUT /api/boards/:id` - Update board
-- `DELETE /api/boards/:id` - Delete board
-
-### Tasks
-- `GET /api/tasks` - Get all tasks
-- `POST /api/tasks` - Create new task
-- `PUT /api/tasks/:id` - Update task
-- `DELETE /api/tasks/:id` - Delete task
-- `PUT /api/tasks/:id/move` - Move task
-
-## 🛠️ Development
-
-### Available Scripts
-
-**Backend:**
 ```bash
-npm run dev      # Start development server
-npm start        # Start production server
-npm run seed     # Seed database with sample data
-npm test         # Run tests
+# Run backend tests
+cd backend
+npm test
+
+# Run frontend tests
+cd frontend
+npm test
+
+# Run all tests
+npm test
 ```
-
-**Frontend:**
-```bash
-npm run dev      # Start development server
-npm run build    # Build for production
-npm run preview  # Preview production build
-npm run lint     # Run ESLint
-```
-
-### Database Schema
-
-#### Users
-```javascript
-{
-  name: String,
-  email: String (unique),
-  passwordHash: String,
-  preferences: {
-    theme: String,
-    language: String
-  }
-}
-```
-
-#### Boards
-```javascript
-{
-  title: String,
-  description: String,
-  ownerId: ObjectId (ref: User),
-  columns: [{
-    id: String,
-    name: String,
-    order: Number,
-    color: String
-  }]
-}
-```
-
-#### Tasks
-```javascript
-{
-  title: String,
-  description: String,
-  boardId: ObjectId (ref: Board),
-  status: String,
-  priority: String,
-  dueDate: Date,
-  labels: [String],
-  subtasks: [{
-    title: String,
-    completed: Boolean
-  }]
-}
-```
-
-## 🎨 Customization
-
-### Themes
-The application supports both light and dark themes. Users can:
-- Toggle between themes manually
-- Use system preference detection
-- Persist theme choice in localStorage
-
-### Styling
-Built with TailwindCSS for easy customization:
-- Modify `tailwind.config.js` for theme changes
-- Update `src/index.css` for custom styles
-- Use CSS variables for consistent theming
 
 ## 🚀 Deployment
 
-### Backend Deployment
-1. Set production environment variables
-2. Build the application: `npm run build`
-3. Start with PM2: `pm2 start server.js`
-4. Configure reverse proxy (nginx)
+### Backend Deployment (Heroku)
+1. Create a Heroku app
+2. Set environment variables
+3. Deploy from the backend directory
 
-### Frontend Deployment
-1. Build the application: `npm run build`
-2. Deploy `dist` folder to your hosting service
-3. Configure environment variables
+```bash
+cd backend
+heroku create your-app-name
+heroku config:set NODE_ENV=production
+heroku config:set MONGODB_URI=your-mongodb-uri
+heroku config:set JWT_SECRET=your-jwt-secret
+git push heroku main
+```
 
-### Database
-- Use MongoDB Atlas for production
-- Set up proper indexes for performance
-- Configure backup and monitoring
+### Frontend Deployment (Vercel/Netlify)
+1. Build the frontend
+2. Deploy the dist folder
+
+```bash
+cd frontend
+npm run build
+# Deploy the dist folder to your hosting service
+```
+
+### Database (MongoDB Atlas)
+1. Create a MongoDB Atlas cluster
+2. Get the connection string
+3. Update the MONGODB_URI environment variable
 
 ## 🤝 Contributing
 
 1. Fork the repository
-2. Create a feature branch: `git checkout -b feature-name`
-3. Commit changes: `git commit -am 'Add feature'`
-4. Push to branch: `git push origin feature-name`
-5. Submit a pull request
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add some amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
 
 ## 📝 License
 
@@ -313,18 +236,32 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 🙏 Acknowledgments
 
-- [React Beautiful DnD](https://github.com/atlassian/react-beautiful-dnd) for drag-and-drop functionality
-- [TailwindCSS](https://tailwindcss.com/) for styling
-- [Lucide React](https://lucide.dev/) for icons
-- [Date-fns](https://date-fns.org/) for date manipulation
+- [React](https://reactjs.org/) - UI library
+- [Express.js](https://expressjs.com/) - Web framework
+- [MongoDB](https://www.mongodb.com/) - Database
+- [TailwindCSS](https://tailwindcss.com/) - CSS framework
+- [@hello-pangea/dnd](https://github.com/hello-pangea/dnd) - Drag and drop
+- [Lucide](https://lucide.dev/) - Icons
 
 ## 📞 Support
 
-If you encounter any issues or have questions:
-1. Check the [Issues](https://github.com/your-repo/issues) page
-2. Create a new issue with detailed information
-3. Contact the development team
+If you have any questions or need help, please:
+1. Check the [documentation](docs/)
+2. Search existing [issues](https://github.com/your-username/kanban-board/issues)
+3. Create a new issue with detailed information
+
+## 🎯 Roadmap
+
+See [roadmap.json](roadmap.json) for the complete project roadmap and current status.
+
+### Current Status: 95% Complete
+- ✅ Phase 1: Project Setup & Backend Foundation
+- ✅ Phase 2: Frontend Foundation & Basic UI
+- ✅ Phase 3: Drag & Drop Implementation
+- ✅ Phase 4: Advanced Features
+- ✅ Phase 5: UI/UX Polish & Optional Features
+- 🔄 Phase 6: Testing & Deployment (In Progress)
 
 ---
 
-**Happy task managing! 🎉**
+**Made with ❤️ by [Your Name]**

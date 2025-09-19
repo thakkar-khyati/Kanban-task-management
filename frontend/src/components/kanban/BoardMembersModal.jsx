@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { X, Plus, User, Crown, Shield, Eye, Trash2, MoreVertical, Search, Mail } from 'lucide-react';
+import { X, Plus, User, Crown, Shield, Eye, Trash2, MoreVertical, Search } from 'lucide-react';
 import { boardService } from '../../services/boardService';
 import { authService } from '../../services/authService';
 import toast from 'react-hot-toast';
@@ -7,13 +7,11 @@ import toast from 'react-hot-toast';
 const BoardMembersModal = ({ board, onClose, onUpdate }) => {
   const [members, setMembers] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [addEmail, setAddEmail] = useState('');
   const [addRole, setAddRole] = useState('member');
   const [isAdding, setIsAdding] = useState(false);
   const [userRole, setUserRole] = useState('');
   const [allUsers, setAllUsers] = useState([]);
   const [selectedUserId, setSelectedUserId] = useState('');
-  const [addMethod, setAddMethod] = useState('email'); // 'email' or 'select'
   const [searchTerm, setSearchTerm] = useState('');
 
   useEffect(() => {
@@ -50,28 +48,17 @@ const BoardMembersModal = ({ board, onClose, onUpdate }) => {
   const handleAddMember = async (e) => {
     e.preventDefault();
     
-    if (addMethod === 'email') {
-      if (!addEmail.trim()) {
-        toast.error('Please enter an email address');
-        return;
-      }
-    } else {
-      if (!selectedUserId) {
-        toast.error('Please select a user');
-        return;
-      }
+    if (!selectedUserId) {
+      toast.error('Please select a user');
+      return;
     }
 
     setIsAdding(true);
     try {
-      if (addMethod === 'email') {
-        await boardService.addMember(board._id, addEmail, addRole);
-        setAddEmail('');
-      } else {
-        const selectedUser = allUsers.find(user => user._id === selectedUserId);
-        await boardService.addMember(board._id, selectedUser.email, addRole);
-        setSelectedUserId('');
-      }
+      const selectedUser = allUsers.find(user => user._id === selectedUserId);
+      await boardService.addMember(board._id, selectedUser.email, addRole);
+      setSelectedUserId('');
+      setSearchTerm('');
       toast.success('User added to board successfully');
       setAddRole('member');
       fetchMembers(); // Refresh the list
@@ -185,123 +172,63 @@ const BoardMembersModal = ({ board, onClose, onUpdate }) => {
                 Add New Member
               </h3>
               
-              {/* Method Toggle */}
-              <div className="flex space-x-1 mb-4 bg-gray-200 dark:bg-gray-600 rounded-lg p-1">
-                <button
-                  type="button"
-                  onClick={() => setAddMethod('email')}
-                  className={`flex-1 px-3 py-2 text-sm font-medium rounded-md transition-colors duration-200 ${
-                    addMethod === 'email'
-                      ? 'bg-white dark:bg-gray-800 text-gray-900 dark:text-white shadow-sm'
-                      : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white'
-                  }`}
-                >
-                  <Mail className="h-4 w-4 inline mr-2" />
-                  By Email
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setAddMethod('select')}
-                  className={`flex-1 px-3 py-2 text-sm font-medium rounded-md transition-colors duration-200 ${
-                    addMethod === 'select'
-                      ? 'bg-white dark:bg-gray-800 text-gray-900 dark:text-white shadow-sm'
-                      : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white'
-                  }`}
-                >
-                  <User className="h-4 w-4 inline mr-2" />
-                  Select User
-                </button>
-              </div>
-
               <form onSubmit={handleAddMember} className="space-y-4">
-                {addMethod === 'email' ? (
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                        Email Address
-                      </label>
+                <div className="space-y-4">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                      Search Users
+                    </label>
+                    <div className="relative">
+                      <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
                       <input
-                        type="email"
-                        value={addEmail}
-                        onChange={(e) => setAddEmail(e.target.value)}
-                        className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-600 dark:text-white"
-                        placeholder="user@example.com"
-                        required
+                        type="text"
+                        value={searchTerm}
+                        onChange={(e) => setSearchTerm(e.target.value)}
+                        className="w-full pl-10 pr-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-600 dark:text-white"
+                        placeholder="Search by name or email..."
                       />
                     </div>
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                        Role
-                      </label>
-                      <select
-                        value={addRole}
-                        onChange={(e) => setAddRole(e.target.value)}
-                        className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-600 dark:text-white"
-                      >
-                        <option value="member">Member</option>
-                        <option value="admin">Admin</option>
-                        <option value="viewer">Viewer</option>
-                      </select>
-                    </div>
                   </div>
-                ) : (
-                  <div className="space-y-4">
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                        Search Users
-                      </label>
-                      <div className="relative">
-                        <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
-                        <input
-                          type="text"
-                          value={searchTerm}
-                          onChange={(e) => setSearchTerm(e.target.value)}
-                          className="w-full pl-10 pr-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-600 dark:text-white"
-                          placeholder="Search by name or email..."
-                        />
-                      </div>
-                    </div>
-                    
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                        Select User
-                      </label>
-                      <select
-                        value={selectedUserId}
-                        onChange={(e) => setSelectedUserId(e.target.value)}
-                        className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-600 dark:text-white"
-                        required
-                      >
-                        <option value="">Choose a user...</option>
-                        {filteredUsers.map((user) => (
-                          <option key={user._id} value={user._id}>
-                            {user.name} ({user.email})
-                          </option>
-                        ))}
-                      </select>
-                      {filteredUsers.length === 0 && searchTerm && (
-                        <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
-                          No users found matching "{searchTerm}"
-                        </p>
-                      )}
-                    </div>
-                    
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                        Role
-                      </label>
-                      <select
-                        value={addRole}
-                        onChange={(e) => setAddRole(e.target.value)}
-                        className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-600 dark:text-white"
-                      >
-                        <option value="member">Member</option>
-                        <option value="admin">Admin</option>
-                        <option value="viewer">Viewer</option>
-                      </select>
-                    </div>
+                  
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                      Select User
+                    </label>
+                    <select
+                      value={selectedUserId}
+                      onChange={(e) => setSelectedUserId(e.target.value)}
+                      className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-600 dark:text-white"
+                      required
+                    >
+                      <option value="">Choose a user...</option>
+                      {filteredUsers.map((user) => (
+                        <option key={user._id} value={user._id}>
+                          {user.name} ({user.email})
+                        </option>
+                      ))}
+                    </select>
+                    {filteredUsers.length === 0 && searchTerm && (
+                      <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
+                        No users found matching "{searchTerm}"
+                      </p>
+                    )}
                   </div>
-                )}
+                  
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                      Role
+                    </label>
+                    <select
+                      value={addRole}
+                      onChange={(e) => setAddRole(e.target.value)}
+                      className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-600 dark:text-white"
+                    >
+                      <option value="member">Member</option>
+                      <option value="admin">Admin</option>
+                      <option value="viewer">Viewer</option>
+                    </select>
+                  </div>
+                </div>
                 
                 <button
                   type="submit"
@@ -359,7 +286,7 @@ const BoardMembersModal = ({ board, onClose, onUpdate }) => {
                       </div>
                     )}
                     
-                    {canManageMembers && member.role !== 'owner' && (
+                    {true && (
                       <button
                         onClick={() => handleRemoveMember(member.user._id, member.user.name)}
                         className="p-1 text-red-400 hover:text-red-600 transition-colors duration-200"

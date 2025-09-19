@@ -10,6 +10,7 @@ require('dotenv').config();
 const authRoutes = require('./routes/auth');
 const boardRoutes = require('./routes/boards');
 const taskRoutes = require('./routes/tasks');
+const exportRoutes = require('./routes/export');
 
 // Import middleware
 const { errorHandler } = require('./middleware/errorHandler');
@@ -79,6 +80,7 @@ app.get('/health', (req, res) => {
 app.use('/api/auth', authRoutes);
 app.use('/api/boards', boardRoutes);
 app.use('/api/tasks', taskRoutes);
+app.use('/api/export', exportRoutes);
 
 // API documentation endpoint
 app.get('/api', (req, res) => {

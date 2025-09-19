@@ -204,19 +204,19 @@ const DashboardPage = () => {
                     </div>
 
                     {/* Board stats */}
-                    <div className="flex items-center justify-between text-sm text-gray-500 dark:text-gray-400 mb-4">
-                      <span className="flex items-center">
+                    <div className="flex flex-wrap gap-3 mb-4">
+                      <div className="flex items-center px-2 py-1 bg-blue-50 dark:bg-blue-900/20 rounded-full text-xs font-medium text-blue-700 dark:text-blue-300">
                         <div className="w-2 h-2 bg-blue-500 rounded-full mr-2"></div>
                         {board.columns?.length || 0} columns
-                      </span>
-                      <span className="flex items-center">
+                      </div>
+                      <div className="flex items-center px-2 py-1 bg-green-50 dark:bg-green-900/20 rounded-full text-xs font-medium text-green-700 dark:text-green-300">
                         <div className="w-2 h-2 bg-green-500 rounded-full mr-2"></div>
                         {board.taskCount || 0} tasks
-                      </span>
-                      <span className="flex items-center">
+                      </div>
+                      <div className="flex items-center px-2 py-1 bg-purple-50 dark:bg-purple-900/20 rounded-full text-xs font-medium text-purple-700 dark:text-purple-300">
                         <div className="w-2 h-2 bg-purple-500 rounded-full mr-2"></div>
-                        {board.members?.length || 1} members
-                      </span>
+                        {board.members?.length || 0} members
+                      </div>
                     </div>
 
                     {/* Columns preview */}
